@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Form</title>
+    <style>
+        /* Add background color */
+        
+        body {
+            background-color: #87CEFA;
+            column-gap: 20px;
+
+              font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+           
+
+        }
+        
+        /* Style the form */
+
+        form {
+            background-color: #0995eb;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            width: 250px;
+            /* flex-direction: column; */
+        }
+
+        /* Style the form labels */
+        label {
+            color: blue;
+            font-size: 18px;
+            margin-right: 20px;
+            flex-direction: column;
+
+        }
+
+        /* Style the form input fields */
+        input[type="text"],
+        input[type="date"] {
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid blue;
+            width: 250px;
+        }
+
+        /* Style the form submit button */
+        input[type="submit"] {
+            background-color: blue;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 250px;
+        }
+
+        /* Style the form select */
+        select {
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid blue;
+            width: 250px;
+        }
+        .menu {
+            /* display: flex; */
+            width: 400px;
+            float: left;
+            height: 70px;
+        }
+
+        ul {
+            float: left;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        ul li {
+            list-style: none;
+            margin-left: 62px;
+            margin-top: 27px;
+            font-size: 14px;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-family: Arial;
+            font-weight: bold;
+            transition: 0.4s ease-in-out;
+        }
+
+        ul li a:hover {
+            color: #661ad9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu">
+        <ul>
+            <li><a href="home.html">HOME</a></li>
+           
+            <li><a href="form.html">ADD TAST</a></li>
+            
+            <li><a href="#">SIGNUP</a></li>
+        </ul>
+
+    </div>
+    <div class="head">
+        <h1 class="todo-title">Add Todo List for <span id="date"></span></h1>
+
+
+    </div>
+    <div class="form">
+        <form id="fom" class="pass" name="myForm"  method="post">
+
+            <label for="task">Task:</label>
+            <input type="text" id="task" name="task" placeholder="Add task">
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" placeholder="Description">
+
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date">
+
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date">
+
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Shopping">Shopping</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <script src="index.js"></script>
+
+    <script>
+
+
+        const form = document.getElementById('fom');
+        var task_f = document.getElementById("task");
+        var description_f = document.getElementById("description");
+        var start_date_f = document.getElementById("start_date")
+        var end_date_f = document.getElementById("end_date")
+        var category_f = document.getElementById("category")
+        form.addEventListener('submit', (e) => {
+
+            e.preventDefault();
+
+            sendDataToAPI();
+
+
+        })
+
+        const API_URL = 'http://localhost:4000/api/workout';
+
+        async function sendDataToAPI() {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    task: task_f.value,
+                    description: description_f.value,
+                    start_date: start_date_f.value,
+                    End_date: end_date_f.value,
+                    category:category_f.value,
+                    status:"progress"
+                    
+
+
+
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            console.log(data);
+        }
+
+
+
+    </script>
+</body>
+
+</html>
