@@ -1,119 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>To-Do List</title>
+    <style>
+      body {
+        background-color: #87cefa;
+        /* background-color: red; */
+        column-gap: 50px;
 
-<head>
+        font-family: Arial, sans-serif;
+        min-height: 80vh;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+      }
 
+      /* Add styling for the table */
+      table {
+        border-collapse: collapse;
+        width: 120%;
+      }
 
-  <title>To-Do List</title>
-  <style>
-    body {
-      background-color: #87CEFA;
-      /* background-color: red; */
-      column-gap: 50px;
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 19px;
+        text-align: left;
+      }
 
+      th {
+        padding: 19px;
+        background-color: #f2f2f2;
+        /* width: 10%; */
+      }
 
-      font-family: Arial, sans-serif;
-      min-height: 80vh;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      flex-direction: column;
+      .head {
+        flex-direction: column;
+      }
+      .menu {
+        /* display: flex; */
+        width: 400px;
+        float: left;
+        height: 70px;
+      }
 
+      ul {
+        float: left;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-    }
+      ul li {
+        list-style: none;
+        margin-left: 62px;
+        margin-top: 27px;
+        font-size: 14px;
+      }
 
-    /* Add styling for the table */
-    table {
-      border-collapse: collapse;
-      width: 120%;
+      ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-family: Arial;
+        font-weight: bold;
+        transition: 0.4s ease-in-out;
+      }
 
-
-    }
-
-    th,
-    td {
-      border: 1px solid #ddd;
-      padding: 19px;
-      text-align: left;
-    }
-
-    th {
-      padding: 19px;
-      background-color: #f2f2f2;
-      /* width: 10%; */
-    }
-
-    .head {
-      flex-direction: column;
-    }
-    .menu {
-            /* display: flex; */
-            width: 400px;
-            float: left;
-            height: 70px;
-        }
-
-        ul {
-            float: left;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        ul li {
-            list-style: none;
-            margin-left: 62px;
-            margin-top: 27px;
-            font-size: 14px;
-        }
-
-        ul li a {
-            text-decoration: none;
-            color: #fff;
-            font-family: Arial;
-            font-weight: bold;
-            transition: 0.4s ease-in-out;
-        }
-
-        ul li a:hover {
-            color: #661ad9;
-        }
+      ul li a:hover {
+        color: #661ad9;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="menu">
-        <ul>
-            <li><a href="home.html">HOME</a></li>
-           
-            <li><a href="form.html">ADD TAST</a></li>
-            
-            <li><a href="#">SIGNUP</a></li>
-        </ul>
+      <ul>
+        <li><a href="home.html">HOME</a></li>
 
+        <li><a href="form.html">ADD TAST</a></li>
+
+        <li><a href="#">SIGNUP</a></li>
+      </ul>
     </div>
-  <div class="head">
-    <h1> LIST OF TODO LIST </h1>
-  </div>
-  <div class="table-container">
-   
-  </div>
+    <div class="head">
+      <h1>LIST OF TODO LIST</h1>
+    </div>
+    <div class="table-container"></div>
 
+    <script>
+      let table = document.getElementById("table");
+      // let td = document.getElementById('Date');
+      async function getData() {
+        const response = await fetch("http://localhost:4000/api/workout");
+        const data = await response.json();
+        console.log(data);
+        // console.log(data.workouts);
 
-  <script>
+        const workouts = data.workouts;
+        console.log(workouts);
 
-    let table = document.getElementById('table');
-    // let td = document.getElementById('Date');
-    async function getData() {
-      const response = await fetch('http://localhost:4000/api/workout/63d38e0901b04ef8c8a051ba');
-      const data = await response.json();
-      console.log(data);
+        const tableLayout = document.querySelector(".table-container");
 
-      
+        // let table = `<table class="table">
+        //               <thead>
+        //                 <tr>
+        //                     <th>Task</th>
+        //                     <th>Description</th>
+        //                     <th>Start Date</th>
+        //                     <th>End Date</th>
+        //                     <th>Category</th>
+        //                     <th>Status</th>
+        //                     <th>Modification</th>
+        //                 </tr>
+        //               </thead>
+        //               <tbody>
+        //                 ${workouts.forEach((element, index) => {
+        //                   `<tr>
+        //                       <td data-label="Task">${element.task}</td>
+        //                       <td  data-label= "Descriptionid">${element.description}</td>
+        //                       <td data-label="startDate">${element.start_date}</td>
+        //                       <td data-label="endData">${element.End_date}</td>
+        //                       <td data-label="category">${element.category}</td>
+        //                       <td data-label="status">${element.status}</td>
+        //                       <td>
+        //                       <center>
+        //                           <a href="home.html" class="delete-icon" onclick="deleteItem(${element._id}))">&#x274C;</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        //                           &nbsp;&nbsp;&nbsp;<a href="update.html" class="edit-icon">&#x270E;</a>
 
-      const tableLayout = document.querySelector('.table-container');
+        //                        </center>
+        //                           </td>
+        //                   </tr>`;
+        //                 })}
+        //                 // <tr>
+        //                 //   <td>One</td>
+        //                 //   <td>Two</td>
+        //                 // </tr>
+        //               </tbody>
 
-      let table = `<table class="table">
+        //               </table>`;
+
+        let table = `<table class="table">
                       <thead>
                         <tr>
                             <th>Task</th>
@@ -125,104 +152,117 @@
                             <th>Modification</th>
                         </tr>
                       </thead>
-                      <tbody>
-                          <tr>
-                              <td data-label="Task">${data.task}</td>
-                              <td  data-label= "Descriptionid">${data.description}</td>
-                              <td data-label="startDate">${data.start_date}</td>
-                              <td data-label="endData">${data.End_date}</td>
-                              <td data-label="category">${data.category}</td> 
-                              <td data-label="status">${data.status}</td>                              
+                      <tbody>`;
+
+        workouts.forEach((element, index) => {
+          table += `<tr>
+                              <td data-label="Task">${element.task}</td>
+                              <td  data-label= "Descriptionid">${element.description}</td>
+                              <td data-label="startDate">${element.start_date}</td>
+                              <td data-label="endData">${element.End_date}</td>
+                              <td data-label="category">${element.category}</td>
+                              <td data-label="status">${element.status}</td>
                               <td>
                               <center>
-                                  <a href="home.html" class="delete-icon" onclick="deleteItem(${data._id}))">&#x274C;</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                  &nbsp;&nbsp;&nbsp;<a href="update.html" class="edit-icon">&#x270E;</a>
-                                  
+                                  <a href="home.html" class="delete-icon" onclick="deleteItem(${element._id}))">&#x274C;</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                  &nbsp;&nbsp;&nbsp;<a href="update.html" class="edit-icon" onclick="editItem(${element._id})">&#x270E;</a>
+
                                </center>
-                                  </td>                     
-                          </tr>
-                      </tbody>
+                                  </td>
+                                <td class="element-id" style="display:none;">${element._id}</td>`;
+          let ItemIndex = index;
 
-                      </table>`
-      tableLayout.innerHTML = table;
+          trialFunction(ItemIndex);
 
+          console.log("ITEM INDEX: " + ItemIndex);
 
-    }
+          table += `</tr>`;
+          // let elementID = document.querySelector(element - id);
+          // console.log(elementID);
+          // style="display:none;"
+        });
 
-    getData()
+        table += `</tbody></table>`;
 
+        tableLayout.innerHTML = table;
+      }
 
-    //     async function getData() {
-//   const response = await fetch('http://localhost:4000/api/workout');
-//   const data = await response.json();
-//   console.log(data);
-//   const tableLayout = document.querySelector('.table-container');
+      getData();
 
-//   let table = `<table class="table">
-//                   <thead>
-//                     <tr>
-//                         <th>Task</th>
-//                         <th>Description</th>
-//                         <th>Start Date</th>
-//                         <th>End Date</th>
-//                         <th>Category</th>
-//                         <th>Status</th>
-//                         <th>Modification</th>
-//                     </tr>
-//                   </thead>
-//                   <tbody>`;
-//   for (let item in data) {
-//     console.log(data[item].task);
-//     table += `<tr>
-//                 <td data-label="Task">${data[item].task}</td>
-//                 <td data-label="Description">${data[item].description}</td>
-//                 <td data-label="startDate">${data[item].start_date}</td>
-//                 <td data-label="endData">${data[item].End_date}</td>
-//                 <td data-label="category">${data[item].category}</td> 
-//                 <td data-label="status">${data[item].status}</td>                              
-//                 <td>
-//                 <center>
-//                     <a href="#" class="delete-icon">&#x274C;</a>&nbsp;&nbsp;&nbsp;&nbsp;
-//                     &nbsp;&nbsp;&nbsp;<a href="#" class="edit-icon">&#x270E;</a>
-//                  </center>
-//                     </td>                     
-//               </tr>`;
-//   }
-//   table += `</tbody></table>`;
-//   tableLayout.innerHTML = table;
-// }
+      //     async function getData() {
+      //   const response = await fetch('http://localhost:4000/api/workout');
+      //   const data = await response.json();
+      //   console.log(data);
+      //   const tableLayout = document.querySelector('.table-container');
 
-// getData();
+      //   let table = `<table class="table">
+      //                   <thead>
+      //                     <tr>
+      //                         <th>Task</th>
+      //                         <th>Description</th>
+      //                         <th>Start Date</th>
+      //                         <th>End Date</th>
+      //                         <th>Category</th>
+      //                         <th>Status</th>
+      //                         <th>Modification</th>
+      //                     </tr>
+      //                   </thead>
+      //                   <tbody>`;
+      //   for (let item in data) {
+      //     console.log(data[item].task);
+      //     table += `<tr>
+      //                 <td data-label="Task">${data[item].task}</td>
+      //                 <td data-label="Description">${data[item].description}</td>
+      //                 <td data-label="startDate">${data[item].start_date}</td>
+      //                 <td data-label="endData">${data[item].End_date}</td>
+      //                 <td data-label="category">${data[item].category}</td>
+      //                 <td data-label="status">${data[item].status}</td>
+      //                 <td>
+      //                 <center>
+      //                     <a href="#" class="delete-icon">&#x274C;</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      //                     &nbsp;&nbsp;&nbsp;<a href="#" class="edit-icon">&#x270E;</a>
+      //                  </center>
+      //                     </td>
+      //               </tr>`;
+      //   }
+      //   table += `</tbody></table>`;
+      //   tableLayout.innerHTML = table;
+      // }
 
+      // getData();
 
+      function editItem(id) {
+        console.log("EDIT BUTTON CLICKED");
+      }
 
+      editItem();
 
+      function trialFunction(id) {
+        console.log("FROM TRIAL FUNCTION: " + id);
+      }
 
+      async function deleteItem(id) {
+        const response = await fetch(
+          "http://localhost:4000/api/workout/63d39b823ef08aa86053a79c",
+          {
+            // const response = await fetch(`http://localhost:4000/api/workout/${id}`, {
+            method: "DELETE",
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+      }
 
-  async function deleteItem(id) {
-    const response = await fetch("http://localhost:4000/api/workout/63d39b823ef08aa86053a79c",{
-  // const response = await fetch(`http://localhost:4000/api/workout/${id}`, {
-    method: 'DELETE'
-  });
-  const data = await response.json();
-  console.log(data);
-}
+      // let table = document.getElementById('table');
+      let rows = table.getElementsByTagName("tr");
 
-
-// let table = document.getElementById('table');
-let rows = table.getElementsByTagName('tr');
-
-for (let i = 0; i < rows.length; i++) {
-    let row = rows[i];
-    if(row.getAttribute('data-id') === id) {
-        table.removeChild(row);
-    }
-    alert("Item deleted successfully!");
-}
-
-
-
-  </script>
-</body>
-
+      for (let i = 0; i < rows.length; i++) {
+        let row = rows[i];
+        if (row.getAttribute("data-id") === id) {
+          table.removeChild(row);
+        }
+        alert("Item deleted successfully!");
+      }
+    </script>
+  </body>
 </html>
